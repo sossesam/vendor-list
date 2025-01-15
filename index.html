@@ -11,7 +11,7 @@
  getData()
 
   async function getData() {
-    let url = "https://script.google.com/macros/s/AKfycbxdVUseWRldFD7vDmmbtKOvgj0drwFHz_EzqW5cynVjobWR3I4Wq6Ld2jxaSPaC7f7AZg/exec?action=getJson"
+    let url = "https://script.google.com/macros/s/AKfycbw0L20l6zDIAAluiYRN7TBaDrmS9atamkGcWRaVBpfS4eIDfBrUPeViY4pKUyzJArik/exec?action=getJson"
     const response = await fetch(url)
     const data = await response.json();
     for(const [key, value] of Object.entries(data)){
@@ -20,12 +20,23 @@
       div.append(`${key}`, list);
       document.getElementById("vendor-list").append(div)
         value.forEach(element => {
+          new_object = element
           for(const [key_1, value_1] of Object.entries(element)){
             p = document.createElement("p");
             p.style = "color:red";
-            p.append(`${key_1}-${value_1}`)
-            list.append(p)
-            console.log(`${key_1}, ${value_1}, ${key}`)
+            if(key_1 != "date"){
+              d = new Date(element["date"])
+
+              if(element["date"] == ""){
+                d = new Date("2024-09-25")
+              }
+              p.append(`${key_1} - ${value_1} -  ${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`)
+              list.append(p)
+            }
+            
+            
+            console.log(`${key_1}, ${value_1}, ${key}, ${element["date"]}`)
+            
           }
         });
         
